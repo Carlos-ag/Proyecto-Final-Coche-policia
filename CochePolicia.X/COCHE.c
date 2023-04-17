@@ -1,8 +1,8 @@
 #include <xc.h>
 #include "Pic32Ini.h"
 
-#define rueda_izq 6
-#define rueda_der 9
+#define rueda_izq 9
+#define rueda_der 6
 
 void inicializarCoche(void)
 {
