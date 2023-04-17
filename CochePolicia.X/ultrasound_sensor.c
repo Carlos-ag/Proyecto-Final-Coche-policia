@@ -1,5 +1,6 @@
 #include <xc.h>
 #include <sys/attribs.h>
+#include "ultrasound_sensor.h"
 
 #define PIN_TRIG_ULTRASOUND 4
 #define DESPL_TRIG_ULTRASOUND 1<<PIN_TRIG_ULTRASOUND
@@ -47,33 +48,32 @@ void reiniciar_variables_trig() {
 }
 
 
-void inicializar_timer2()
+void inicializar_timer3()
 {
-    T2CON = 0;
-    TMR2 = 0;
-    PR2 = 1953; // 1 SEGUNDOS 19531
-    IPC2bits.T2IP = 3; // Prioridad 2 
-    IPC2bits.T2IS = 0; // Subprioridad 0 
-    IFS0bits.T2IF = 0;
-    IEC0bits.T2IE = 1;
-    T2CON = 0x8070;
+    T3CON = 0;
+    TMR3 = 0;
+    PR3 = 1953; // 1 SEGUNDOS 19531
+    IPC3bits.T3IP = 3; // Prioridad 2 
+    IPC3bits.T3IS = 0; // Subprioridad 0 
+    IFS0bits.T3IF = 0;
+    IEC0bits.T3IE = 1;
+    T3CON = 0x8070;
 }
 
-void parar_timer2() {
-    T2CON = 0;
+
+void parar_timer3() {
+    T3CON = 0;
 }
 
-void __attribute__((vector(_TIMER_2_VECTOR), interrupt(IPL3SOFT), nomips16))
-InterrupcionTimer2(void)
+void __attribute__((vector(_TIMER_3_VECTOR), interrupt(IPL3SOFT), nomips16))
+InterrupcionTimer3(void)
 {
-    
-    IFS0bits.T2IF = 0;
+    IFS0bits.T3IF = 0;
     reiniciar_variables_trig();
     inicializar_timer1();
-    parar_timer2();
-
-    
+    parar_timer3();
 }
+
 
 
 void enable_interrupciones_echo() {
@@ -108,7 +108,7 @@ void __ISR(_CHANGE_NOTICE_VECTOR, IPL4AUTO) CN_Interrupt(void) {
     else {
         parar_timer1();
         distance = ticks_echo * (10.0 / 58.0);
-        inicializar_timer2();
+        inicializar_timer3();
     }
 
     // Clear the CN interrupt status flag
@@ -142,49 +142,16 @@ void __attribute__((vector(_TIMER_1_VECTOR), interrupt(IPL2SOFT), nomips16)) Int
 
 
 
-
-
-
-
-void main(void) {
-    
+void inicializar_ultrasound_sensor() {
     TRISC &= ~(DESPL_TRIG_ULTRASOUND); // Set trigger pin as output
     TRISC |= DESPL_ECHO_ULTRASOUND; // Set echo pin as input
 
     ANSELC &= ~(DESPL_TRIG_ULTRASOUND); // Set trigger pin as digital
     ANSELC &= ~(DESPL_ECHO_ULTRASOUND); // Set echo pin as digital
+    inicializar_timer3();
+}
 
 
-    TRISC &= ~(DESPL_LED_0 | DESPL_LED_1 | DESPL_LED_2 | DESPL_LED_3); // definimos los puertos como salidas
-    ANSELC &= ~(DESPL_LED_0 | DESPL_LED_1 | DESPL_LED_2 | DESPL_LED_3); // definimos las salidas como digitales
-    LATCSET = (DESPL_LED_0 | DESPL_LED_1 | DESPL_LED_2 | DESPL_LED_3);
-    
-
-
-
-    INTCONbits.MVEC = 1; // Modo multivector 
-    asm("ei"); // Interrupciones habilitadas
-    
-
-    inicializar_timer2();
-
-    while(1) {
-        int i = distance;
-        if (i < 5) {
-            LATCCLR = DESPL_LED_0;
-            LATCSET = DESPL_LED_1 | DESPL_LED_2 | DESPL_LED_3;
-        }
-        else if (i < 10) {
-            LATCCLR =DESPL_LED_1;
-            LATCSET = DESPL_LED_0 | DESPL_LED_2 | DESPL_LED_3;
-        }
-        else if (i < 15) {
-            LATCCLR = DESPL_LED_2;
-            LATCSET = DESPL_LED_0 | DESPL_LED_1 | DESPL_LED_3;
-        }
-        else {
-            LATCCLR = DESPL_LED_3;
-            LATCSET = DESPL_LED_0 | DESPL_LED_1 | DESPL_LED_2;
-        }
-    }
+float get_distance() {
+    return distance;
 }
