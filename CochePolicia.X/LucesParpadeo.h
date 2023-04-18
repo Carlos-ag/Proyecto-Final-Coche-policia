@@ -16,9 +16,9 @@ void encender_todas_luces(void);
 void encender_luces_rojas(void);
 void encender_luces_azules(void);
 
-static void luces_policia(void);
-static void luces_rojas_parpadeo(void);
-static void luces_azules_parpadeo(void);
-static void aparcar_todas_luces(void);
+void luces_policia(void);
+void luces_rojas_parpadeo(void);
+void luces_azules_parpadeo(void);
+void apagar_todas_luces(void);
 
 #endif // LUCES_PARPADEO_H

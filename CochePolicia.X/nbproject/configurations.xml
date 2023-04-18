@@ -6,6 +6,11 @@
                    projectFiles="true">
       <itemPath>Pic32Ini.h</itemPath>
       <itemPath>retardo.h</itemPath>
+      <itemPath>COCHE.h</itemPath>
+      <itemPath>UART.h</itemPath>
+      <itemPath>buzzer.h</itemPath>
+      <itemPath>ultrasound_sensor.h</itemPath>
+      <itemPath>LucesParpadeo.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -14,11 +19,14 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>main.c</itemPath>
       <itemPath>Pic32Ini.c</itemPath>
-      <itemPath>mainLuces.c</itemPath>
       <itemPath>retardo.c</itemPath>
-      <itemPath>mainBuzzer.c</itemPath>
+      <itemPath>COCHE.c</itemPath>
+      <itemPath>PFinal.c</itemPath>
+      <itemPath>UART.c</itemPath>
+      <itemPath>buzzer.c</itemPath>
+      <itemPath>ultrasound_sensor.c</itemPath>
+      <itemPath>LucesParpadeo.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -26,6 +34,9 @@
       <itemPath>Makefile</itemPath>
     </logicalFolder>
   </logicalFolder>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="default" type="2">
@@ -37,7 +48,7 @@
         <platformTool>PK3OBPlatformTool</platformTool>
         <languageToolchain>XC32</languageToolchain>
         <languageToolchainVersion>4.21</languageToolchainVersion>
-        <platform>4</platform>
+        <platform>3</platform>
       </toolsSet>
       <packs>
         <pack name="PIC32MX_DFP" vendor="Microchip" version="1.5.259"/>
@@ -211,39 +222,9 @@
       <Tool>
         <property key="firmware.download.all" value="false"/>
       </Tool>
-      <item path="main.c" ex="false" overriding="false">
-        <C32>
-        </C32>
-        <C32-AR>
-        </C32-AR>
-        <C32-AS>
-        </C32-AS>
-        <C32-CO>
-        </C32-CO>
-        <C32-LD>
-        </C32-LD>
-        <C32CPP>
-        </C32CPP>
-        <C32Global>
-        </C32Global>
+      <item path="buzzer.c" ex="true" overriding="false">
       </item>
-      <item path="mainBuzzer.c" ex="true" overriding="false">
-      </item>
-      <item path="mainLuces.c" ex="true" overriding="false">
-        <C32>
-        </C32>
-        <C32-AR>
-        </C32-AR>
-        <C32-AS>
-        </C32-AS>
-        <C32-CO>
-        </C32-CO>
-        <C32-LD>
-        </C32-LD>
-        <C32CPP>
-        </C32CPP>
-        <C32Global>
-        </C32Global>
+      <item path="ultrasound_sensor.c" ex="true" overriding="false">
       </item>
     </conf>
   </confs>
