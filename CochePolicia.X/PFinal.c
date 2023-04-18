@@ -3,6 +3,7 @@
 #include "UART.h"
 #include "COCHE.h"
 #include "LucesParpadeo.h"
+#include "buzzer.h"
 
 int main ( void )
 {
@@ -27,10 +28,8 @@ int main ( void )
     //char char_enviado;
     asm("ei");
     INTCONbits.MVEC = 1;
-    InicializarTimer5();
-    luces_policia();
-    //avanzar();
-    
+    inicializar_buzzer();
+    sound_siren();
     while(1){
         
      //luces_policia();

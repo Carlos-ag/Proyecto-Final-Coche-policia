@@ -4,35 +4,45 @@
 #include "Pic32Ini.h"
 #include "buzzer.h"
 
-#define BUZZER_PIN RPB15 // Buzzer pin on RPB15
 #define PWM_DUTY_CYCLE 50 // Default duty cycle of the PWM signal in percent
+#define MIN_FREQ 800
+#define MAX_FREQ 1500
+
+
+
 
 int siren_period = 0;
 
-int MIN_FREQ = 800;
-int MAX_FREQ = 1500;
 int TIME_FREQ_UP = 150;
 int TIME_FREQ_DOWN = 250;
 int frequency;
 int STEP_UP;
 int STEP_DOWN;
 
-int calculate_PR2(int frequency) {
+int calculate_PR4(int frequency) {
     return (40000000 / (2 * frequency)) - 1;
 }
 
 void sound(int frequency) {
-    int high_time = (calculate_PR2(frequency) + 1) * PWM_DUTY_CYCLE / 100;
+    int high_time = ((calculate_PR4(frequency) + 1) * PWM_DUTY_CYCLE) / 100;
 
-    PR4 = calculate_PR2(frequency);
+    PR4 = calculate_PR4(frequency);
     OC3RS = high_time;
 }
 
 void initialize_peripherals(void) {
-    ANSELB &= ~(1 << 15);
-    TRISB &= ~(1 << 15);
+    ANSELB &= ~(1 << 14);
+    TRISB &= ~(1 << 14);
 
-    RPB15R = 0b1101; // B15 -> OC3
+    
+    SYSKEY=0xAA996655; // Se desbloquean los registros
+    SYSKEY=0x556699AA;
+    
+    RPB14R = 5; // B14 -> OC3
+    
+    SYSKEY=0x1CA11CA1; // Volvemos a bloquear los registro
+    
+    
     T4CONbits.ON = 0;
     T4CONbits.TCKPS = 0; // Prescaler 1:1
     TMR4 = 0;
