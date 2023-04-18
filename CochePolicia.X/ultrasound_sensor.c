@@ -48,30 +48,30 @@ void reiniciar_variables_trig() {
 }
 
 
-void inicializar_timer3()
+void inicializar_timer4()
 {
-    T3CON = 0;
-    TMR3 = 0;
-    PR3 = 1953; // 1 SEGUNDOS 19531
-    IPC3bits.T3IP = 3; // Prioridad 2 
-    IPC3bits.T3IS = 0; // Subprioridad 0 
-    IFS0bits.T3IF = 0;
-    IEC0bits.T3IE = 1;
-    T3CON = 0x8070;
+    T4CON = 0;
+    TMR4 = 0;
+    PR4 = 1953; // 1 SEGUNDOS 19531
+    IPC4bits.T4IP = 3; // Prioridad 3
+    IPC4bits.T4IS = 0; // Subprioridad 0 
+    IFS0bits.T4IF = 0;
+    IEC0bits.T4IE = 1;
+    T4CON = 0x8070;
 }
 
 
-void parar_timer3() {
-    T3CON = 0;
+void parar_timer4() {
+    T4CON = 0;
 }
 
-void __attribute__((vector(_TIMER_3_VECTOR), interrupt(IPL3SOFT), nomips16))
-InterrupcionTimer3(void)
+void __attribute__((vector(_TIMER_4_VECTOR), interrupt(IPL3SOFT), nomips16))
+InterrupcionTimer4(void)
 {
-    IFS0bits.T3IF = 0;
+    IFS0bits.T4IF = 0;
     reiniciar_variables_trig();
     inicializar_timer1();
-    parar_timer3();
+    parar_timer4();
 }
 
 
@@ -108,7 +108,7 @@ void __ISR(_CHANGE_NOTICE_VECTOR, IPL4AUTO) CN_Interrupt(void) {
     else {
         parar_timer1();
         distance = ticks_echo * (10.0 / 58.0);
-        inicializar_timer3();
+        inicializar_timer4();
     }
 
     // Clear the CN interrupt status flag
@@ -148,7 +148,7 @@ void inicializar_ultrasound_sensor() {
 
     ANSELC &= ~(DESPL_TRIG_ULTRASOUND); // Set trigger pin as digital
     ANSELC &= ~(DESPL_ECHO_ULTRASOUND); // Set echo pin as digital
-    inicializar_timer3();
+    inicializar_timer4();
 }
 
 
