@@ -19,14 +19,14 @@ int frequency;
 int STEP_UP;
 int STEP_DOWN;
 
-int calculate_PR4(int frequency) {
+int calculate_PR3(int frequency) {
     return (40000000 / (2 * frequency)) - 1;
 }
 
 void sound(int frequency) {
-    int high_time = ((calculate_PR4(frequency) + 1) * PWM_DUTY_CYCLE) / 100;
+    int high_time = ((calculate_PR3(frequency) + 1) * PWM_DUTY_CYCLE) / 100;
 
-    PR4 = calculate_PR4(frequency);
+    PR3 = calculate_PR3(frequency);
     OC3RS = high_time;
 }
 
@@ -43,31 +43,31 @@ void initialize_peripherals(void) {
     SYSKEY=0x1CA11CA1; // Volvemos a bloquear los registro
     
     
-    T4CONbits.ON = 0;
-    T4CONbits.TCKPS = 0; // Prescaler 1:1
-    TMR4 = 0;
-    T4CONbits.ON = 1;
+    T3CONbits.ON = 0;
+    T3CONbits.TCKPS = 0; // Prescaler 1:1
+    TMR3 = 0;
+    T3CONbits.ON = 1;
     OC3CONbits.ON = 0;
     OC3CONbits.OCM = 6; // PWM mode on OC3
-    OC3CONbits.OCTSEL = 1; // Use Timer4 as clock source for OC3
+    OC3CONbits.OCTSEL = 1; // Use Timer3 as clock source for OC3
     OC3CONbits.ON = 1;
 }
 
-void InicializarTimer4()
+void InicializarTimer3()
 {
-    T4CON = 0;
-    TMR4 = 0;
-    PR4 = 49999; // 10ms period
-    IPC4bits.T4IP = 2; // Priority 2
-    IPC4bits.T4IS = 0; // Subpriority 0
-    IFS0bits.T4IF = 0;
-    IEC0bits.T4IE = 1;
-    T4CON = 0x8000;
+    T3CON = 0;
+    TMR3 = 0;
+    PR3 = 49999; // 10ms period
+    IPC3bits.T3IP = 2; // Priority 2
+    IPC3bits.T3IS = 0; // Subpriority 0
+    IFS0bits.T3IF = 0;
+    IEC0bits.T3IE = 1;
+    T3CON = 0x8000;
 }
 
-void __attribute__((vector(_TIMER_4_VECTOR), interrupt(IPL2SOFT), nomips16)) InterrupcionTimer4(void)
+void __attribute__((vector(_TIMER_3_VECTOR), interrupt(IPL2SOFT), nomips16)) InterrupcionTimer3(void)
 {
-    IFS0bits.T4IF = 0;
+    IFS0bits.T3IF = 0;
     
     siren_period++;
 
@@ -92,7 +92,7 @@ void calculate_variables(void) {
 void inicializar_buzzer(void) {
     calculate_variables();
     initialize_peripherals();
-    InicializarTimer4();
+    InicializarTimer3();
 }
 
 void sound_siren() {
