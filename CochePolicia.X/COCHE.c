@@ -6,6 +6,7 @@
 
 void inicializarCoche(void)
 {
+    TRISC=0;
     SYSKEY = 0XAA996655;
     SYSKEY = 0X556699AA;
     RPC7R = 5;
@@ -59,7 +60,7 @@ void marchaAtras(void)
 void girarIzq(void)
 {
     encenderCoche();
-    LATCCLR= (1<<rueda_izq); //ALANTE
+    LATCCLR= (1<<rueda_izq); //ADELANTE
     LATCSET= (1<<rueda_der); //ATRAS
 }
 
@@ -67,7 +68,7 @@ void girarDer(void)
 {
     encenderCoche();
     LATCSET= (1<<rueda_izq); //ATRAS
-    LATCCLR= (1<<rueda_der); //ALANTE
+    LATCCLR= (1<<rueda_der); //ADELANTE
 }
 
 void pararCoche(void)

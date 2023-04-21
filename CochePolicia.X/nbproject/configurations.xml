@@ -27,6 +27,7 @@
       <itemPath>buzzer.c</itemPath>
       <itemPath>ultrasound_sensor.c</itemPath>
       <itemPath>LucesParpadeo.c</itemPath>
+      <itemPath>MAINPRUEBA.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -216,16 +217,14 @@
         <property key="stack-smashing" value=""/>
         <property key="wpo-lto" value="false"/>
       </C32Global>
+      <item path="MAINPRUEBA.c" ex="true" overriding="false">
+      </item>
       <PK3OBPlatformTool>
         <property key="firmware.download.all" value="false"/>
       </PK3OBPlatformTool>
       <Tool>
         <property key="firmware.download.all" value="false"/>
       </Tool>
-      <item path="buzzer.c" ex="true" overriding="false">
-      </item>
-      <item path="ultrasound_sensor.c" ex="true" overriding="false">
-      </item>
     </conf>
   </confs>
 </configurationDescriptor>

@@ -4,99 +4,93 @@
 #include "COCHE.h"
 #include "LucesParpadeo.h"
 #include "buzzer.h"
-
+#include "ultrasound_sensor.h"
+#include "retardo.h"
 int main ( void )
 {
-    ANSELA &= 0X3; //RA0 y RA1 a digital
-    ANSELC &= ~0x3ff; //RC0-9 a digital
+    //ANSELA &= 0X3; //RA0 y RA1 a digital 
+    //ANSELC &= ~0xf;
     
-    LATA=0;
-    LATB=0;
-    LATC=0xf;
     
-    TRISA=0;
-    TRISB=0;
-    TRISC=0;
-    LATA = 0; // APAGA LAS LUCES DE POLICIA
+    //LATA=0;
+    //LATB=0;
+    //LATC|=0xf;
+    
+    //TRISA=0;
+    //TRISB=0;
+    //TRISC=0;
+    //LATA = 0; // APAGA LAS LUCES DE POLICIA
+    inicializarCoche();
+    
+    encenderCoche();
     pararCoche();
-    //inicializarCoche();
-    //encenderCoche();
-    //inicializarUART(9600); // UART funcionando a 9600 baudios
+    inicializarUART(9600); // UART funcionando a 9600 baudios
     
-
-    
-    //char char_enviado;
+    inicializar_ultrasound_sensor();
     asm("ei");
-    INTCONbits.MVEC = 1;
-    inicializar_buzzer();
-    sound_siren();
-    while(1){
-        
-     //luces_policia();
-     
-      //luces_rojas_parpadeo();
-    //luces_azules_parpadeo();
-    //aparcar_todas_luces();
+    char char_enviado;
+    enviarUART("Ready\n\0");
     
-
-    }
-}
-   /* while(1)
+    //inicializar_buzzer();
+    //marchaAtras();
+    float dist;
+    
+    encenderCoche();
+while(1)
     {
-        
-        
+
         char_enviado=getChar();
         
-                 if(char_enviado=="w")
+        if(char_enviado=='w')
         {
+            
+            enviarUART("Avanzo\n\0");     
             avanzar();
         }
 
-        if(char_enviado=="s")
+        if(char_enviado=='s')
         {
+            enviarUART("Marcha Atras\n\0");
             marchaAtras();
         }
 
-        if(char_enviado=="a")
+        if(char_enviado=='a')
         {
+            enviarUART("Girando Izquierda\n\0");
             girarIzq();
         }
 
-        if(char_enviado=="d")
+        if(char_enviado=='d')
         {
+            enviarUART("Girando Derecha\n\0");
             girarDer();
         }
 
 
-        if(char_enviado=='\0')
+        if(char_enviado=='n')
         {
-            pararCoche();;    
+            enviarUART("Stop\n\0");
+            pararCoche();    
         }
         
-        /*
-        switch(char_enviado)
+        if(char_enviado=='p')
         {
-            case "w":
-                avanzar();
-            break;
-
-            case "s":
-                marchaAtras();
-            break;
-
-            case "a":
-                girarIzq();
-            break;
-
-            case "d":
-                girarDer();
-            break;
-
-            default:
-                pararCoche();
-            break;    
+            enviarUART("Policia\n\0");
+            pararCoche();
         }
-        */
+        
+        if(get_distance()<5)
+        {
+            sound_siren();
+            LATCCLR = 1;
+        }
+        else{
+            //stop_siren();
+            
+        }
+}
+}
+
              
     
          
