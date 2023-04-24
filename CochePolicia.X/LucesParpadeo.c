@@ -22,7 +22,7 @@ void InicializarTimer5()
 
     PR5 = 39061; // 0.5 SEGUNDOS
     IPC5bits.T5IP = 4; // Prioridad 4
-    IPC5bits.T5IS = 0; // Subprioridad 0
+    IPC5bits.T5IS = 2; // Subprioridad 0
     IFS0bits.T5IF = 0;
     IEC0bits.T5IE = 1;
     T5CON = 0x8060;
@@ -31,7 +31,7 @@ void InicializarTimer5()
 void __attribute__((vector(_TIMER_5_VECTOR), interrupt(IPL4SOFT), nomips16))
 InterrupcionTimer5(void)
 {
-    LATCINV = 1;
+    LATCINV = 8;
     IFS0bits.T5IF = 0;
     if (lucesMode == 3) {
         parpadear_rojas();

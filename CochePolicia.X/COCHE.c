@@ -15,7 +15,7 @@ void inicializarCoche(void)
     
     T2CON = 0;
     TMR2 = 0;
-    PR2=500;
+    PR2=2000;
     T2CON = 0x8000;
 }
 
@@ -29,13 +29,13 @@ void encenderCoche(void)
     else
     {
         OC1CON = 0;
-        OC1R = 500;
-        OC1RS = 500;
+        OC1R = 2000;
+        OC1RS = 2000;
         OC1CON = 0x8006;
 
         OC2CON = 0;
-        OC2R = 500;
-        OC2RS = 500;
+        OC2R = 2000;
+        OC2RS = 2000;
         OC2CON = 0x8006;
     }
 }

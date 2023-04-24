@@ -100,5 +100,5 @@ void sound_siren() {
 }
 
 void stop_siren() {
-    sound(0);
+    OC3RS = 0;
 }

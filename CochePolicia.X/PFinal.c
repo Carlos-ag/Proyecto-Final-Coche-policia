@@ -8,7 +8,7 @@
 #include "retardo.h"
 int main ( void )
 {
-    //ANSELA &= 0X3; //RA0 y RA1 a digital 
+     ANSELA &= 0X3; //RA0 y RA1 a digital 
     //ANSELC &= ~0xf;
     
     
@@ -16,10 +16,12 @@ int main ( void )
     //LATB=0;
     //LATC|=0xf;
     
-    //TRISA=0;
+    TRISA=0;
     //TRISB=0;
     //TRISC=0;
-    //LATA = 0; // APAGA LAS LUCES DE POLICIA
+    LATA = 0; // APAGA LAS LUCES DE POLICIA
+    //InicializarTimer5();
+    //luces_policia();
     inicializarCoche();
     
     encenderCoche();
@@ -31,11 +33,11 @@ int main ( void )
     char char_enviado;
     enviarUART("Ready\n\0");
     
-    //inicializar_buzzer();
+    inicializar_buzzer();
     //marchaAtras();
     float dist;
     
-    encenderCoche();
+    //encenderCoche();
 while(1)
     {
 
@@ -70,22 +72,27 @@ while(1)
         if(char_enviado=='n')
         {
             enviarUART("Stop\n\0");
+            apagar_todas_luces();
+            LATA = 0;
             pararCoche();    
         }
         
         if(char_enviado=='p')
         {
             enviarUART("Policia\n\0");
-            pararCoche();
+            InicializarTimer5();
+            luces_policia();
+            //LATAINV = 1;
+            
         }
         
-        if(get_distance()<5)
+        if(get_distance()<10)
         {
             sound_siren();
             LATCCLR = 1;
         }
         else{
-            //stop_siren();
+            stop_siren();
             
         }
 }

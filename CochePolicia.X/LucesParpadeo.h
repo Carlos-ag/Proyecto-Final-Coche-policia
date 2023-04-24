@@ -8,7 +8,6 @@
 
 // Function prototypes
 void InicializarTimer5(void);
-void InterrupcionTimer5(void);
 void PararTimer5(void);
 void invertir_luces(void);
 void incializar_luces_parpadeo(void);
